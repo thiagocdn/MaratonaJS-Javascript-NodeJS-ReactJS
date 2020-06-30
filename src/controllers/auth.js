@@ -12,7 +12,7 @@ router.get('/sign-up', async (req, res) => {
   const checkEmail = await Account.findOne({ where: { email }});
 
   if (checkEmail) {
-    return res.json( 'Account already exists' );
+    return res.jsonBadRequest('Account already exists' );
   }
 
 
@@ -20,7 +20,7 @@ router.get('/sign-up', async (req, res) => {
 
   const newAccount = await Account.create({ email, password: hash });
 
-  return res.json(newAccount);
+  return res.jsonOK(newAccount, 'Account created.');
 });
 
 module.exports = router;
