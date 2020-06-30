@@ -7,14 +7,14 @@ const saltRounds = 10;
 
 router.get('/sign-up', async (req, res) => {
 
-  const email = 'thiagocdn@gmail.com';
-  const password = '123456';
+  const {email, password} = req.body;
+
 
   const hash = bcrypt.hashSync(password, saltRounds)
 
-  const result = await Account.create({ email, password: hash });
+  // const result = await Account.create({ email, password: hash });
 
-  return res.json(result);
+  return res.json({email, password});
 });
 
 module.exports = router;
