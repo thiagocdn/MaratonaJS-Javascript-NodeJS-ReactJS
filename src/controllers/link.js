@@ -7,6 +7,15 @@ router.get('/', (req, res) => {
   return res.jsonOK('Links');
 })
 
+router.get('/:id', async (req, res) => {
+  const accountId = 5;// req.id;
+  const { id } = req.params;
+  const link = await Link.findOne({ where: { id, accountId }});
+  if(!link) return res.jsonNotFound();
+
+  return res.jsonOK(link);
+});
+
 router.post('/', async (req, res) => {
   const accountId = 5;// req.id;
   const { label, url, isSocial } = req.body;
