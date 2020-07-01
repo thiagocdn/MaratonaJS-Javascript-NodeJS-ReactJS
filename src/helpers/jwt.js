@@ -11,7 +11,7 @@ const generateJwt = (payload) => {
   return jwt.sign(payload, tokenPrivateKey, options);
 }
 
-const verityJwt = (token) => {
+const verifyJwt = (token) => {
   return jwt.verify(token, tokenPrivateKey);
 }
 
@@ -19,8 +19,8 @@ const generateRefreshJwt = (payload) => {
   return jwt.sign(payload, refreshTokenPrivateKey, refreshOptions);
 }
 
-const verityRefreshJwt = (token) => {
+const verifyRefreshJwt = (token) => {
   return jwt.verify(token, refreshTokenPrivateKey);
 }
 
-module.exports = { generateJwt, verityJwt, generateRefreshJwt, verityRefreshJwt };
+module.exports = { generateJwt, verifyJwt, generateRefreshJwt, verifyRefreshJwt };

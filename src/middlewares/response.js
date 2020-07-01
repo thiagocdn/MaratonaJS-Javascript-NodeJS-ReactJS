@@ -7,13 +7,13 @@ const STATUS_CODE_NOT_FOUND = 404;
 const STATUS_CODE_SERVER_ERROR = 500;
 
 const jsonOK = function(data, message, metadata) {
-
   const status = STATUS_CODE_OK;
 
+  
   data = (data) ? data : null;
   message = (message) ? message : getMessage('response.json_ok');
   metadata = (metadata) ? metadata : {};
-
+  
   this.status(status);
   this.type(TYPE_JSON);
   return this.json({ message, data, metadata, status });
