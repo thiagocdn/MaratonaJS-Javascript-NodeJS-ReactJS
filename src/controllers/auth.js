@@ -3,14 +3,13 @@ const bcrypt = require('bcrypt');
 const { Account } = require('../models');
 const { accountSignUp, accountSignIn } = require('../validators/account');
 const { getMessage } = require('../helpers/messages');
-const { generateJwt, generateRefreshJwt } = require('../helpers/jwt');
+const { generateJwt, generateRefreshJwt, verifyRefreshJwt, getTokenFromHeaders } = require('../helpers/jwt');
 const account = require('../validators/account');
 
 const router = express.Router();
 const saltRounds = 10;
 
 router.post('/sign-in', accountSignIn, async (req, res) => {
-  console.log('wtf');
   const { email, password } = req.body;
   const account = await Account.findOne({ where: { email }});
 
@@ -19,7 +18,7 @@ router.post('/sign-in', accountSignIn, async (req, res) => {
 
   const token = generateJwt({ id: account.id });
   const refreshToken = generateRefreshJwt({ id: account.id, version: account.jwtVersion });
-  console.log(account.jwtVersion);
+
   return res.jsonOK(account, getMessage('account.signin.success'), {token, refreshToken});
 });
 
@@ -42,6 +41,30 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
   const refreshToken = generateRefreshJwt({ id: newAccount.id, version: newAccount.jwtVersion });
 
   return res.jsonOK(newAccount, getMessage('account.signup.success'), { token, refreshToken });
+});
+
+router.post('/refresh', async (req, res) => {
+  const token = getTokenFromHeaders(req.headers);
+  if(!token) {
+    return res.jsonUnauthorized(null, 'Invalid token');
+  }
+
+  try{
+    const decoded = verifyRefreshJwt(token);
+    const account = await Account.findByPk(decoded.id);
+    if(!account) return res.jsonUnauthorized(null, 'Invalid token.');
+
+    if(decoded.version !== account.jwtVersion) return res.jsonUnauthorized(null, 'Invalid token.');
+
+    const meta = {
+      token: generateJwt({ id: account.id }),
+    }
+
+    return res.jsonOK(null, null, meta);
+  } catch(error) {
+    return res.jsonUnauthorized(null, 'Invalid token.');
+  }
+
 });
 
 module.exports = router;
