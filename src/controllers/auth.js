@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const { Account } = require('../models');
-const { accountSignUp } = require('../validators/account');
+const { accountSignUp, accountSignIn } = require('../validators/account');
 const { getMessage } = require('../helpers/messages');
 const { generateJwt, generateRefreshJwt } = require('../helpers/jwt');
 const account = require('../validators/account');
@@ -9,7 +9,23 @@ const account = require('../validators/account');
 const router = express.Router();
 const saltRounds = 10;
 
-router.get('/sign-up', accountSignUp, async (req, res) => {
+router.post('/sign-in', accountSignIn, async (req, res) => {
+  console.log('wtf');
+  const { email, password } = req.body;
+  const account = await Account.findOne({ where: { email }});
+
+  console.log(account);
+
+  const match = account ? bcrypt.compareSync(password, account.password) : null;
+  if(!match) return res.jsonBadRequest(getMessage('account.signin.failed'));
+
+  const token = generateJwt({id: account.id});
+  const refreshToken = generateRefreshJwt({id: account.id});
+
+  return res.jsonOK(account, getMessage('account.signin.success'), {token, refreshToken});
+});
+
+router.post('/sign-up', accountSignUp, async (req, res) => {
 
   const {email, password} = req.body;
 
