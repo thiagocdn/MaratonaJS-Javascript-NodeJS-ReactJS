@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import SignIn from './screens/SignIn';
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
           </ul>
         </nav>
         <Switch>
-          <Route path='/sign-in'><h1>Sign In</h1></Route>
+          <Route path='/sign-in'><SignIn /></Route>
           <Route path='/sign-up'><h1>Sign up</h1></Route>
 
           <Route path='/manage/links/create'><h1>Create Link</h1></Route>
