@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
-import Links from './screens/Manage/Links'
+import Links from './screens/Manage/Links';
+import Create from './screens/Manage/Links/Create';
 
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
           <Route path='/sign-in'><SignIn /></Route>
           <Route path='/sign-up'><SignUp /></Route>
 
-          <Route path='/manage/links/create'><h1>Create Link</h1></Route>
+          <Route path='/manage/links/create'><Create /></Route>
           <Route path='/manage/links/edit'><h1>Edit Link</h1></Route>
           <Route path='/manage/links'><Links /></Route>
           <Route path='/'><h1>Home</h1></Route>
