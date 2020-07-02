@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
+import Links from './screens/Manage/Links'
 
 const App = () => {
   return (
@@ -23,7 +24,7 @@ const App = () => {
 
           <Route path='/manage/links/create'><h1>Create Link</h1></Route>
           <Route path='/manage/links/edit'><h1>Edit Link</h1></Route>
-          <Route path='/manage/links'><h1>Links</h1></Route>
+          <Route path='/manage/links'><Links /></Route>
           <Route path='/'><h1>Home</h1></Route>
         </Switch>
       </div>
