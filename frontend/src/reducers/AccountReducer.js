@@ -1,5 +1,12 @@
-import { SIGN_IN, SIGN_UP } from '../actions/AccountActions';
-import { setAccount, setToken, setRefreshToken } from '../helpers/account';
+import { SIGN_IN, SIGN_UP, SIGN_OUT } from '../actions/AccountActions';
+import {
+  setAccount,
+  setToken,
+  setRefreshToken,
+  removeAccount,
+  removeRefreshToken,
+  removeToken
+} from '../helpers/account';
 
 const initialState = {
   account: null,
@@ -22,6 +29,13 @@ export default function(state = initialState, action){
       if(refreshToken) setRefreshToken(refreshToken);
 
       return{ ...initialState, account }
+    case SIGN_OUT:
+
+      removeAccount();
+      removeRefreshToken();
+      removeToken();
+
+      return{ ...state, account: null }
     default:
       return state;
   }
