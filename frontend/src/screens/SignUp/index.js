@@ -6,16 +6,16 @@ import { signUp } from './SignUpActions';
 const SignUp = (props) => {
   const { account, signUp } = props;
 
+  if(account) {
+    return <Redirect to='/manage/links' />
+  }
+
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 
     signUp(data);
-  }
-
-  if(account) {
-    return <Redirect to='/manage/links' />
   }
 
   return(
