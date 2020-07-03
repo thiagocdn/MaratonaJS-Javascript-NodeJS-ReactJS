@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signUp } from './SignUpActions';
 
@@ -11,9 +11,11 @@ const SignUp = (props) => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 
-    console.log(data);
-
     signUp(data);
+  }
+
+  if(account) {
+    return <Redirect to='/manage/links' />
   }
 
   return(
